@@ -1,6 +1,7 @@
  # mkt515-cost-analysis
 
  * Simple cli app that does some marketing math
+ * This code is bad and abstract, dont recommend reading
 
 ## Build
 
