@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/leekchan/accounting"
 )
 
 func (s *situation) populateQuestions() {
@@ -41,6 +43,8 @@ func (s *situation) dataInit() error {
 }
 
 func (s *situation) init() error {
+	s.a = accounting.Accounting{Symbol: "$", Precision: 2}
+
 	s.populateQuestions()
 
 	err := s.parseInput()

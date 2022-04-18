@@ -30,8 +30,19 @@ func (s situation) sayBreakdown() {
 
 func (s situation) sayDataSummary() {
 	w := tabwriter.NewWriter(os.Stdout, 1, 2, 1, ' ', 0)
-	fmt.Fprintln(w, "FixedCost\tVariableCost\tAnnualRevenue\tAnnualProfit")
-	fmt.Fprintf(w, "%v\t%v\t%v\t%v\n", itousd(s.data.fixedCost), itousd(s.data.variableCost), itousd(s.totalAnnualRevenue()), itousd(s.annualProfit()))
+	fmt.Fprintln(w, "FixedCost\tVariableCost\tProfitPerCx\tTotalNumCx\tAnnualExpenses\tDailyRev\tDailyProfit\tAnnualRevenue\tAnnualProfit\tMargin\tBreakEvenDays")
+	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\n",
+		s.itousd(s.data.fixedCost),
+		s.itousd(s.data.variableCost),
+		s.itousd(s.profitPerCustomer()),
+		s.cxReachString(),
+		s.itousd(s.totalAnnualCost()),
+		s.itousd(int(s.dailyRevenue())),
+		s.itousd(int(s.dailyProfit())),
+		s.itousd(s.totalAnnualRevenue()),
+		s.itousd(s.annualProfit()),
+		s.margin(),
+		int(s.breakEvenDays()))
 	w.Flush()
 }
 
@@ -73,6 +84,6 @@ func (bar *Bar) Finish() {
 	fmt.Println()
 }
 
-func itousd(x int) string {
-	return fmt.Sprintf("$%.2f", float64(x))
+func (s situation) itousd(x int) string {
+	return s.a.FormatMoney(x)
 }
